@@ -44,9 +44,6 @@ async function getNewMsgs() {
   }
   allChat = json.msg;
   render();
-  setTimeout(() => {
-    getNewMsgs();
-  }, INTERVAL);
 }
 
 function render() {
@@ -62,8 +59,16 @@ function render() {
 const template = (user, msg) =>
   `<li class="collection-item"><span class="badge">${user}</span>${msg}</li>`;
 
-// make the first request
-getNewMsgs();
+let timeToMakeNextRequest = 0;
+async function requestAnimationFrameTimer(time) {
+  if (timeToMakeNextRequest <= time) {
+    await getNewMsgs();
+    timeToMakeNextRequest = time + INTERVAL;
+  }
+  requestAnimationFrame(requestAnimationFrameTimer);
+}
+
+requestAnimationFrame(requestAnimationFrameTimer);
 
 /**
  * A function to demonstrate the real usage of long polling.
