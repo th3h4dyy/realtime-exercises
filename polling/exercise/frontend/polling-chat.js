@@ -68,6 +68,7 @@ async function requestAnimationFrameTimer(time) {
   requestAnimationFrame(requestAnimationFrameTimer);
 }
 
+// call it once to kick it off.
 requestAnimationFrame(requestAnimationFrameTimer);
 
 /**
